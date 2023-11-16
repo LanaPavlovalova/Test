@@ -1,7 +1,8 @@
+import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class KataTest {
-        public static void main(String[] args){
+        public static void main(String[] args) throws Exception{
             Scanner input = new Scanner(System.in);
             Main result = new Main();
             System.out.println("Введите арифметическое выражение:");                   // Запрос ввода
@@ -14,33 +15,32 @@ public class KataTest {
     }
 
     class Main{
-        public static String calc(String input){
-            boolean romanOrArab = false;                      // Для понимания какое число на выходе (рим или араб)
-            String exception = "throws Exception";            // Исключение
+        public static String calc(String input) throws Exception{
+            boolean romanOrArab = false;                      // Для понимания какое число на выходе (рим или араб
             Main romanExamination = new Main();               // Вводим для проверки и перевода из рим в араб
             Main arabToRoman = new Main();                    // Для перевода ответа в римские
             int result = 0;                                   // Считает выражение
             String[] inputSplit = input.split(" ");
             if (inputSplit.length != 3){
-                return exception;                             // Ловим, если не 3 элемента
+                throw new Exception ("throw Exception");                            // Ловим, если не 3 элемента
             }
             Integer firstNumber = 0;
             Integer secondNumber = 0;
             try {
                 firstNumber = Integer.valueOf(inputSplit[0]);
                 secondNumber = Integer.valueOf(inputSplit[2]);
-            } catch (NumberFormatException e) {                          // Ловим, если не арабское
+                    } catch (NumberFormatException e) {                          // Ловим, если не арабское
                 try {
                     firstNumber = romanExamination.romanToArab(inputSplit[0]);
                     secondNumber = romanExamination.romanToArab(inputSplit[2]);
                     romanOrArab = true;
                 } catch (NumberFormatException ex) {                     // Ловим, если не римское
-                    return exception;
+                    throw new Exception("throw Exception");
                 }
             }
 
             if ((firstNumber < 1) || (firstNumber > 10) || (secondNumber < 1) || (secondNumber > 10)){
-                return exception;                                       // Указываем диапазон значений
+                throw new Exception ("throw Exception");                                       // Указываем диапазон значений
             }
 
             String sign = inputSplit[1];
@@ -50,7 +50,7 @@ public class KataTest {
                 case "*" -> result = firstNumber * secondNumber;
                 case "/" -> result = firstNumber / secondNumber;
                 default -> {
-                    return exception;                                    // Ловим, если не знак
+                    throw new Exception ("throw Exception");                                    // Ловим, если не знак
                 }
             }
 
@@ -58,7 +58,7 @@ public class KataTest {
 
             if (romanOrArab){
                 if(result < 1){
-                    return exception;
+                    throw new Exception("throw Exception");
                 } else {
                     output = arabToRoman.arabToRome(result);
                 }
